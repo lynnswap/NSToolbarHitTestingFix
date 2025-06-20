@@ -4,7 +4,7 @@ A lightweight Swift package that installs a hit-testing workaround for toolbar r
 
 ## Usage
 
-Apply the `toolbarClickThrough()` modifier to any SwiftUI view that should forward interactions through the toolbar.
+Apply the `toolbarClickThrough()` modifier to any SwiftUI view that should forward interactions through the toolbar. On macOS versions earlier than 26, calling the modifier has no effect.
 
 ```swift
 Text("Hello")
