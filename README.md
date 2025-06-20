@@ -11,7 +11,7 @@ Text("Hello")
     .toolbarClickThrough()
 ```
 
-The implementation registers a swizzled `hitTest` on `NSGlassContainerView` when your window is first encountered. It is designed only for experimental purposes during the macOS 26 beta.
+The implementation registers a swizzled `hitTest` on `NSGlassContainerView` the first time a window installs the modifier. A singleton registry keeps track of installed windows. The package is intended only for experimental use during the macOS 26 beta.
 
 ## Feedback
 

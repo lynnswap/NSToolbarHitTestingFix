@@ -40,8 +40,6 @@ private struct ToolbarClickThroughInstaller: NSViewRepresentable {
 
 // MARK: - Low-level Core
 @available(macOS 26.0, *)
-@MainActor
-private let _toolbarClickThroughViews = NSHashTable<AnyObject>.weakObjects()
 
 @available(macOS 26.0, *)
 @MainActor
@@ -59,7 +57,7 @@ func installToolbarClickThroughSwizzle() {
         guard let hit = original(obj, #selector(NSView.hitTest(_:)), pt)?.takeUnretainedValue()
         else { return nil }
 
-        if _toolbarClickThroughViews.contains(obj) {
+        if ToolbarClickThroughRegistry.shared.contains(obj) {
             return isToolbarItemViewer(hit, itemViewerClass: itemViewerClass) ? hit : nil
         }
         return hit
@@ -70,25 +68,20 @@ func installToolbarClickThroughSwizzle() {
 @available(macOS 26.0, *)
 @MainActor
 func registerToolbarClickThrough(for window: NSWindow) {
-    if _toolbarClickThroughViews.allObjects.isEmpty {
+    ToolbarClickThroughRegistry.shared.ensureSwizzleInstalled {
         installToolbarClickThroughSwizzle()
     }
-
-    guard let toolbarView = firstToolbarView(in: window),
-          let glassView   = firstGlassContainerView(in: toolbarView) else { return }
-
-    _toolbarClickThroughViews.add(toolbarView)
-    _toolbarClickThroughViews.add(glassView)
+    ToolbarClickThroughRegistry.shared.addViews(from: window)
 }
 
 @MainActor
-private func firstGlassContainerView(in root: NSView) -> NSView? {
+func firstGlassContainerView(in root: NSView) -> NSView? {
     guard let cls = NSClassFromString("NSGlassContainerView") else { return nil }
     return root.firstDescendant { $0.isKind(of: cls) }
 }
 
 @MainActor
-private func firstToolbarView(in window: NSWindow) -> NSView? {
+func firstToolbarView(in window: NSWindow) -> NSView? {
     guard
         let frameView = window.contentView?.superview,
         let cls = NSClassFromString("NSToolbarView")
