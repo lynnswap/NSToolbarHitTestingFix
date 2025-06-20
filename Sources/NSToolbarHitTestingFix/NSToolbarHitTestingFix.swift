@@ -6,9 +6,13 @@ import AppKit
 // behind the toolbar.
 
 public extension View {
-    @available(macOS 26.0, *)
+    @ViewBuilder
     func toolbarClickThrough() -> some View {
-        modifier(ToolbarClickThroughModifier())
+        if #available(macOS 26.0, *) {
+            modifier(ToolbarClickThroughModifier())
+        } else {
+            self
+        }
     }
 }
 
