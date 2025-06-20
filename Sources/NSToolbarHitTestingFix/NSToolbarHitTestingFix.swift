@@ -5,7 +5,7 @@ import AppKit
 // Apply `toolbarClickThrough()` to a view to allow interactions with elements
 // behind the toolbar.
 
-extension View {
+public extension View {
     @available(macOS 26.0, *)
     func toolbarClickThrough() -> some View {
         modifier(ToolbarClickThroughModifier())
