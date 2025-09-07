@@ -1,17 +1,21 @@
-# NSToolbarHitTestingFix
+# NavigationBarPassThroughKit
 
-A lightweight Swift package that installs a hit-testing workaround for toolbar regions on macOS 26 beta. Buttons positioned behind `NSToolbarView` become clickable once the modifier is applied.
+A lightweight Swift package that lets navigation/toolbar backgrounds pass taps/clicks to views behind. Supports macOS and iOS. On supported OS versions it installs a targeted hit-testing override so views under the bar become interactive.
 
 ## Usage
 
-Apply the `toolbarClickThrough()` modifier to any SwiftUI view that should forward interactions through the toolbar. On macOS versions earlier than 26, calling the modifier has no effect.
+Apply the `toolbarClickThrough()` modifier to any SwiftUI view that should forward interactions through the navigation/toolbar area. On older OS versions where the issue isn’t present, calling the modifier has no effect.
 
 ```swift
 Text("Hello")
     .toolbarClickThrough()
 ```
 
-The implementation registers a swizzled `hitTest` on `NSGlassContainerView` the first time a window installs the modifier. A singleton registry keeps track of installed windows. The package is intended only for experimental use during the macOS 26 beta.
+Implementation details:
+- macOS: Swizzles `NSGlassContainerView` under `NSToolbarView` so only real toolbar items hit-test; background passes through.
+- iOS: Swizzles `_UIBarContentView` under `UINavigationBar` to allow taps to pass through the bar’s background while preserving hits on actual items.
+
+Intended primarily for use during beta periods where hit-testing behavior changes; evaluate carefully for production use.
 
 ## Feedback
 
@@ -21,4 +25,3 @@ The implementation registers a swizzled `hitTest` on `NSGlassContainerView` the 
 ## License
 
 Released under the MIT license. See [LICENSE](LICENSE) for details.
-
