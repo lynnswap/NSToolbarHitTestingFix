@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "NSToolbarHitTestingFix",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v14),
+        .iOS(.v17)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
