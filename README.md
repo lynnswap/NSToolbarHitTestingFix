@@ -4,11 +4,11 @@ A lightweight Swift package that lets navigation/toolbar backgrounds pass taps/c
 
 ## Usage
 
-Apply the `toolbarClickThrough()` modifier to any SwiftUI view that should forward interactions through the navigation/toolbar area. On older OS versions where the issue isn’t present, calling the modifier has no effect.
+Apply the `navigationBarPassThrough()` modifier to any SwiftUI view that should forward interactions through the navigation/toolbar area. On older OS versions where the issue isn’t present, calling the modifier has no effect.
 
 ```swift
 Text("Hello")
-    .toolbarClickThrough()
+    .navigationBarPassThrough()
 ```
 
 Implementation details:

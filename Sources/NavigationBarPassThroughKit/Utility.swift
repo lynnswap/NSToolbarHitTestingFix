@@ -2,7 +2,7 @@ import SwiftUI
 
 #if canImport(AppKit)
 @MainActor
-func installToolbarClickThroughSwizzle() {
+func installNavigationBarPassThroughSwizzle() {
     guard let glassClass = NSClassFromString("NSGlassContainerView"),
           let itemViewerClass = NSClassFromString("NSToolbarItemViewer"),
           let m = class_getInstanceMethod(glassClass, #selector(NSView.hitTest(_:))) else {
@@ -65,7 +65,7 @@ extension NSView {
 #elseif canImport(UIKit)
 
 @MainActor
-func installToolbarClickThroughSwizzle() {
+func installNavigationBarPassThroughSwizzle() {
     guard let glassClass = NSClassFromString("_UIBarContentView"),
           let itemViewerClass = NSClassFromString("_UINavigationBarPlatterView"),
           let m = class_getInstanceMethod(glassClass, #selector(UIView.hitTest(_:with:))) else {
